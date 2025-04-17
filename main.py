@@ -1,7 +1,7 @@
 import os
 import asyncio
 import logging
-from typing import Dict, List, Optional, Tuple, Union
+from typing import Dict, List, Optional, Tuple, Union, Any
 from dotenv import load_dotenv
 import json
 
@@ -66,10 +66,10 @@ class GeminiLLM:
             logger.error(f"Error generating content: {e}")
             return f"Error generating content: {str(e)}"
 
-# Custom tools for CrewAI agents
+# Custom tools for CrewAI agents - with proper type annotations
 class InternetSearchTool(BaseTool):
-    name = "Internet Search"
-    description = "Search for information on the internet."
+    name: str = "Internet Search"
+    description: str = "Search for information on the internet."
     
     async def _run(self, query: str) -> str:
         """Simulate searching the internet for information."""
@@ -80,8 +80,8 @@ class InternetSearchTool(BaseTool):
         return result
 
 class DataAnalysisTool(BaseTool):
-    name = "Data Analysis"
-    description = "Analyze data and provide insights."
+    name: str = "Data Analysis"
+    description: str = "Analyze data and provide insights."
     
     async def _run(self, data: str) -> str:
         """Simulate data analysis."""
@@ -91,8 +91,8 @@ class DataAnalysisTool(BaseTool):
         return result
 
 class ContentCreationTool(BaseTool):
-    name = "Content Creation"
-    description = "Create high-quality content based on a topic."
+    name: str = "Content Creation"
+    description: str = "Create high-quality content based on a topic."
     
     async def _run(self, topic: str) -> str:
         """Simulate content creation."""
@@ -146,7 +146,7 @@ TASK_TYPES = {
 }
 
 # Store active tasks and crews for each user
-user_tasks: Dict[int, Dict[str, Union[Crew, str, List[Agent]]]] = {}
+user_tasks: Dict[int, Dict[str, Any]] = {}
 
 # Helper functions
 async def ask_gemini_directly(query: str, model_name: str = DEFAULT_MODEL) -> str:
