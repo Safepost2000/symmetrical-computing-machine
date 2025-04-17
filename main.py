@@ -194,20 +194,19 @@ async def research_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -
     result = await asyncio.to_thread(
         create_and_run_crew, user_id, "research", f"Research topic: {topic}"
     )
-    
     MAX_MESSAGE_LENGTH = 4096
-    if len(result) <= MAX_MESSAGE_LENGTH:
-        await update.message.reply_text(f"Research results:\n\n{result}")
-    else:
-        chunks = [result[i:i + MAX_MESSAGE_LENGTH] for i in range(0, len(result), MAX_MESSAGE_LENGTH)]
-        for i, chunk in enumerate(chunks):
-            await update.message.reply_text(f"Results (Part {i+1}):\n\n{chunk}")
-
+if len(result) <= MAX_MESSAGE_LENGTH:
+    await update.message.reply_text(f"Research results:\n\n{result}")
+else:
+    chunks = [result[i:i + MAX_MESSAGE_LENGTH] for i in range(0, len(result), MAX_MESSAGE_LENGTH)]
+    for i, chunk in enumerate(chunks):
+        await update.message.reply_text(f"Results (Part {i+1}):\n\n{chunk}"
+async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+await update.message.reply_text("Welcome to the Research Bot! Use /research <topic> to start.")
 def main() -> None:
-    application = Application.builder().token(TELEGRAM_TOKEN).build()
-    application.add_handler(CommandHandler("start", start))
-    application.add_handler(CommandHandler("research", research_command))
-    application.run_polling()
-
-if __name__ == "__main__":
-    main()
+application = Application.builder().token(TELEGRAM_TOKEN).build()
+application.add_handler(CommandHandler("start", start))
+application.add_handler(CommandHandler("research", research_command))
+application.run_polling()
+if name == "main":
+main()
